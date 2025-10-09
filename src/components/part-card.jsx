@@ -7,12 +7,12 @@ import {
     CardContent
 } from "@/components/ui/card"
 
-export function PartCard({card}) {
+export function PartCard({part}) {
     return(
-        <Card>
+        <Card className="w-100 sm:w-50 md:w-60 lg:w-70">
             <CardHeader>
-                <CardTitle>{card.name}</CardTitle>
-                <CardDescription>{card.description}</CardDescription>
+                <CardTitle>{part.name}</CardTitle>
+                <CardDescription>{part.description}</CardDescription>
             </CardHeader>
         </Card>
     )

@@ -1,34 +1,13 @@
-import { PartCard } from "@/components/part-card"
-import { Spinner } from "@/components/ui/spinner"
-import { useParts } from "@/hooks/useParts"
+import { SideMenuFilters } from "@/components/filter-side-menu";
+import { PartsCatalog } from "@/components/parts-catalog";
 
 export function Catalog() {
-    const Parts = useParts()
-
-    if (Parts.isLoading) {
-        return (
-            <>
-                <p>
-                    Please wait... 
-                </p>
-                <Spinner />
-            </>
-        )
-    }
-
-    if (Parts.error) {
-        return (
-            <div>
-                Error: {Parts.error.message}
-            </div>
-        )
-    }
-
     return (
-        <main>
-            <h1 className="text-5xl font-bold">Catalog</h1>
-
-            {Parts.catalog.map((part) => <PartCard key={part.number} part={part} />)}
+        <main className="grid grid-cols-7">
+            <SideMenuFilters />
+            <div className="flex justify-center flex-wrap gap-4 sm:gap-3 md:gap-4 col-span-6">
+                <PartsCatalog />
+            </div>
         </main>
-    )
+    )    
 }

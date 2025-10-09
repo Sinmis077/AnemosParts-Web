@@ -3,7 +3,7 @@ import axios from "axios"
 import process from "react"
 
 export const useParts = () => {
-    const apiUrl = "localhost:8080";
+    const apiUrl = "http://localhost:8080/api";
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['parts'],
