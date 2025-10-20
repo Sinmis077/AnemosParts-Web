@@ -1,6 +1,6 @@
 export function SideMenuFilters() {
     return (
-        <div className="col-span-1 bg-violet-200 min-h-dvh w-full">
+        <div className="w-full md:col-span-1 bg-slate-200 h-min min-h-16">
 
         </div>
     )

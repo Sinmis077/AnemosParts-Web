@@ -3,7 +3,7 @@ import axios from "axios"
 import process from "react"
 
 export const useParts = () => {
-    const apiUrl = "http://localhost:8080/api";
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['parts'],
