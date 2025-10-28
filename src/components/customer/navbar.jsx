@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-import { InputGroup, InputGroupInput } from "./ui/input-group"
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group"
 import { useEffect, useState } from "react"
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 
@@ -34,7 +34,7 @@ export function NavBar() {
 
 
   return (
-    <header className="grid grid-cols-10 md:grid-cols-9 lg:grid-cols-8 w-full lg:gap-7 gap-4 items-center px-5 py-5 shadow bg-gray-100">
+    <header className="grid grid-cols-10 md:grid-cols-9 lg:grid-cols-8 w-full lg:gap-7 gap-4 items-center px-5 py-5 shadow bg-slate-50">
       <div className="col-span-3 md:col-span-2 lg:col-span-1 flex flex-0 justify-center">
         <Link to="/catalog">
           <img src="src\assets\AnemosParts_Logo.svg" alt="Anemos Racing Parts logo" />

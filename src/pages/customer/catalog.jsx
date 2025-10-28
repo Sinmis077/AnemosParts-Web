@@ -1,5 +1,5 @@
-import { SideMenuFilters } from "@/components/filter-side-menu";
-import { PartsCatalog } from "@/components/parts-catalog";
+import { SideMenuFilters } from "@/components/customer/filter-side-menu";
+import { PartsCatalog } from "@/components/customer/parts-catalog";
 
 export function Catalog() {
     return (

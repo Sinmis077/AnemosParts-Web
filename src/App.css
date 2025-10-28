@@ -1,5 +1,5 @@
 #root {
-  background-color: #F9FAFB;
+  background-color: var(--color-white);
   text-align: center;
 }
 
