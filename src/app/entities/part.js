@@ -15,10 +15,9 @@ export const partSchema = z.object({
         .min(0.25, "The price can't be less than 25 cents")
         .max(1000, "The price can't be higher than 1000 euros"),
     quantity: z.number()
-        .min(0, "You can't sell what you don't have")
+        .min(1, "You can't sell what you don't have")
         .max(100, "Too many! I know you don't have that many!!"),
     modelIds: z.array(z.number())
         .min(1, "You must select at least 1 model")
         .max(20, "You should make a universal model instead")
-
 })
