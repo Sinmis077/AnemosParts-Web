@@ -69,6 +69,7 @@ export function NavBar() {
         <div className="w-1/12 grid grid-cols-1 md:grid-cols-2 gap-12 p-2">
           <button className="min-w-min min-h-min p-0.5 hidden md:block">
             <CircleUserRound
+              strokeWidth={1.3}
               width={iconSize}
               height={iconSize}
               color={iconColor}
@@ -76,6 +77,7 @@ export function NavBar() {
           </button>
           <button className="min-w-min min-h-min p-0.5">
             <ShoppingCart
+              strokeWidth={1.3}
               width={iconSize}
               height={iconSize}
               color={iconColor}

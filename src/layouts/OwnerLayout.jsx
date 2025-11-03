@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 export function OwnerLayout() {
   return (
     <SidebarProvider>
-      <Toaster position="top-center" reverseOrder={true} />
+      <Toaster position="top-right" reverseOrder={true} />
       <SideNavBar />
 
       <Outlet />

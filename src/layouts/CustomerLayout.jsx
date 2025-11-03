@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export function CustomerLayout() {
   return (
     <>
-      <Toaster position="top-center" reverseOrder={true} />
+      <Toaster position="top-right" reverseOrder={true} />
       <NavBar />
 
       <Outlet />
