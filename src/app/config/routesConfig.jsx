@@ -3,6 +3,7 @@ import { OwnerLayout } from "@/layouts/OwnerLayout";
 import { PartsCatalogPage } from "@/pages/customer/PartsCatalogPage";
 import { HomePage } from "@/pages/HomePage";
 import { BrandsListPage } from "@/pages/owner/BrandsListPage";
+import { CreateBrandPage } from "@/pages/owner/CreateBrandPage";
 import { DashboardPage } from "@/pages/owner/DashboardPage";
 import { PartsWarehousePage } from "@/pages/owner/PartsWarehousePage";
 
@@ -32,9 +33,13 @@ export const routesConfig = [
         element: <PartsWarehousePage />,
       },
       {
-        path: "/owner/brands/add",
+        path: "/owner/brands",
         element: <BrandsListPage />,
       },
+      {
+        path: "/owner/brands/add",
+        element: <CreateBrandPage />
+      }
     ],
   },
 ];

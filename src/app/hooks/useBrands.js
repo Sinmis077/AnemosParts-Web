@@ -14,7 +14,7 @@ export const useBrands = () => {
     })
 
     return {
-        models: data,
+        models: data ? data.brands : [],
         isLoading,
         error
     }    

@@ -14,7 +14,8 @@ import {
 import { Button } from "../ui/button";
 import { brandSchema } from "@/app/entities/brand";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Camera } from "lucide-react";
 
 export function CreateBrandForm({ id, brand }) {
   const createBrand = useCreateBrand();
@@ -24,6 +25,7 @@ export function CreateBrandForm({ id, brand }) {
   const [imagePreview, setImagePreview] = useState(brand?.icon ?? null);
   const [uploadedIconUrl, setUploadedIconUrl] = useState(brand?.icon ?? null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const {
     register,
@@ -63,7 +65,7 @@ export function CreateBrandForm({ id, brand }) {
     if (selectedFile) {
       uploadImage.mutate(selectedFile, {
         onSuccess: (data) => {
-          setUploadedIconUrl(data.url); // Adjust based on your API response structure
+          setUploadedIconUrl(data.url);
           setValue("icon", data.url);
         },
       });
@@ -112,46 +114,71 @@ export function CreateBrandForm({ id, brand }) {
           <Field>
             <FieldLabel htmlFor="icon">Brand Icon</FieldLabel>
             <div className="space-y-2">
+              {/* Hidden file input */}
               <Input
+                ref={fileInputRef}
                 id="icon"
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="cursor-pointer"
+                className="hidden"
                 aria-invalid={!!errors.icon}
                 disabled={uploadImage.isPending}
               />
 
-              {/* Upload Button */}
-              {selectedFile && !uploadedIconUrl && (
-                <Button
-                  type="button"
-                  onClick={handleUploadImage}
-                  disabled={uploadImage.isPending}
-                  className="w-full"
-                >
-                  {uploadImage.isPending ? "Uploading..." : "Upload Icon"}
-                </Button>
-              )}
+              {/* Clickable Image Preview Area */}
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="relative h-32 w-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition-colors bg-gray-50 flex items-center justify-center overflow-hidden group"
+              >
+                {imagePreview ? (
+                  <>
+                    <img
+                      src={imagePreview}
+                      alt="Brand icon preview"
+                      className="h-full w-full object-contain p-2"
+                    />
+                    {/* Camera icon overlay */}
+                    <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center p-4">
+                    <Camera stroke="currentColor" />
+                    <p className="text-xs text-gray-500">Click to upload</p>
+                  </div>
+                )}
+              </div>
 
               {errors.icon && <FieldError>{errors.icon.message}</FieldError>}
 
               <FieldDescription>
-                {uploadedIconUrl
+                {uploadImage.isPending
+                  ? "Uploading..."
+                  : uploadedIconUrl
                   ? "✓ Icon uploaded successfully"
                   : "Upload a brand icon (PNG, JPG, SVG, etc.)"}
               </FieldDescription>
-
-              {/* Image Preview */}
-              {imagePreview && (
-                <div className="mt-2">
-                  <img
-                    src={imagePreview}
-                    alt="Brand icon preview"
-                    className="h-20 w-20 object-contain rounded border p-2 bg-white"
-                  />
-                </div>
-              )}
             </div>
           </Field>
 
