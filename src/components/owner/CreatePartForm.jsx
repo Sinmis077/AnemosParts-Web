@@ -50,9 +50,9 @@ export function CreatePartForm({ id, part }) {
     console.log(data);
 
     if (id) {
-      updatePart(id, data);
+      updatePart.mutate(id, data);
     } else {
-      createPart(data);
+      createPart.mutate(data);
     }
   };
 

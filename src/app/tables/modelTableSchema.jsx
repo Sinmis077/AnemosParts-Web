@@ -1,12 +1,7 @@
 import { ArrowUpDown, SquarePen, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export const brandTableSchema = () => [
-    {
-        accessorKey: "iconUrl",
-        header: "Icon",
-        cell: ({ row }) => <img className="h-10 max-w-3xs" src={row.getValue("iconUrl")} alt="Brand icon" />,
-    },
+export const modelTableSchema = () => [
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -22,6 +17,37 @@ export const brandTableSchema = () => [
         },
         cell: ({ row }) => <p className="font-medium text-start ps-3">{row.getValue("name")}</p>,
     },
+    {
+        accessorKey: "productionYear",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Production year
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <p className="font-medium text-start ps-3">{row.getValue("productionYear")}</p>,
+    },
+    {
+        accessorKey: "brand",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Manufacturer
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <p className="font-medium text-start ps-3">{row.getValue("brand").name}</p>,
+    },
+    
     // {
     //     accessorKey: "actions",
     //     header: "Actions",

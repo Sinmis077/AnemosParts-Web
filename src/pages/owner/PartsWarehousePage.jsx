@@ -1,14 +1,37 @@
 import { useParts } from "@/app/hooks/useParts";
-import { CreatePartForm } from "@/components/owner/CreatePartForm";
+import { partTableSchema } from "@/app/tables/partTableSchema";
+import { DataTable } from "@/components/DataTable";
+import { Spinner } from "@/components/ui/spinner";
 
 export function PartsWarehousePage() {
   const Parts = useParts();
 
+    if (Parts.isLoading) {
+    return (
+      <>
+        <Spinner /> Loading
+      </>
+    )
+  }
+
+  if (Parts.error) {
+    return (
+      <>
+        <p>An error has occured</p>
+        <p className="text-red-600">{Parts.error}</p>
+      </>
+    )
+  }
+
+
   return (
     <main className="flex w-full justify-center p-10">
-      <div className="w-full md:w-[50%] lg:w-[25%]">
-        <CreatePartForm />
-      </div>
+        <DataTable
+          columns={partTableSchema()}
+          data={Parts.catalog}
+          filterColumn="name"
+          showSelected={false}
+        />
     </main>
   );
 }

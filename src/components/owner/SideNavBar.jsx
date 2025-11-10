@@ -48,7 +48,7 @@ const items = [
       },
       {
         title: "Add part",
-        to: "/owner/parts",
+        to: "/owner/parts/add",
         icon: Plus,
       },
     ],

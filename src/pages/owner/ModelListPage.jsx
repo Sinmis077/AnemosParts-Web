@@ -1,13 +1,12 @@
-import { useBrands } from "@/app/hooks/useBrands";
-import { brandTableSchema } from "@/app/tables/brandTableSchema";
+import { useModels } from "@/app/hooks/useModels";
+import { modelTableSchema } from "@/app/tables/modelTableSchema";
 import { DataTable } from "@/components/DataTable";
-import { CreateBrandForm } from "@/components/owner/CreateBrandForm";
 import { Spinner } from "@/components/ui/spinner";
 
-export function BrandsListPage() {
-  const Brands = useBrands();
+export function ModelsListPage() {
+  const Models = useModels();
 
-  if (Brands.isLoading) {
+  if (Models.isLoading) {
     return (
       <>
         <Spinner /> Loading
@@ -15,11 +14,11 @@ export function BrandsListPage() {
     )
   }
 
-  if (Brands.error) {
+  if (Models.error) {
     return (
       <>
         <p>An error has occured</p>
-        <p className="text-red-600">{Brands.error}</p>
+        <p className="text-red-600">{Models.error}</p>
       </>
     )
   }
@@ -27,8 +26,8 @@ export function BrandsListPage() {
   return (
     <main className="flex w-full justify-center p-10">
         <DataTable
-          columns={brandTableSchema()}
-          data={Brands.brands}
+          columns={modelTableSchema()}
+          data={Models.models}
           filterColumn="name"
           showSelected={false}
         />

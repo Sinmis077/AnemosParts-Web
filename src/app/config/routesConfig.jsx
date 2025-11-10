@@ -4,7 +4,10 @@ import { PartsCatalogPage } from "@/pages/customer/PartsCatalogPage";
 import { HomePage } from "@/pages/HomePage";
 import { BrandsListPage } from "@/pages/owner/BrandsListPage";
 import { CreateBrandPage } from "@/pages/owner/CreateBrandPage";
+import { CreateModelPage } from "@/pages/owner/CreateModelPage";
+import { CreatePartPage } from "@/pages/owner/CreatePartPage";
 import { DashboardPage } from "@/pages/owner/DashboardPage";
+import { ModelsListPage } from "@/pages/owner/ModelListPage";
 import { PartsWarehousePage } from "@/pages/owner/PartsWarehousePage";
 
 export const routesConfig = [
@@ -31,6 +34,18 @@ export const routesConfig = [
       {
         path: "/owner/parts",
         element: <PartsWarehousePage />,
+      },
+      {
+        path: "/owner/parts/add",
+        element: <CreatePartPage />,
+      },
+      {
+        path: "/owner/models",
+        element: <ModelsListPage />,
+      },
+      {
+        path: "/owner/models/add",
+        element: <CreateModelPage />,
       },
       {
         path: "/owner/brands",

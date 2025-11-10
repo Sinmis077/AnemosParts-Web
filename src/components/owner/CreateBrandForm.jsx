@@ -24,7 +24,6 @@ export function CreateBrandForm({ id, brand }) {
 
   const [imagePreview, setImagePreview] = useState(brand?.icon ?? null);
   const [uploadedIconUrl, setUploadedIconUrl] = useState(brand?.icon ?? null);
-  const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
   const {
@@ -44,29 +43,12 @@ export function CreateBrandForm({ id, brand }) {
     if (file) {
       setSelectedFile(file);
 
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-
       // Auto-upload immediately
       uploadImage.mutate(file, {
         onSuccess: (data) => {
+          setImagePreview(data.url);
           setUploadedIconUrl(data.url);
-          setValue("icon", data.url);
-        },
-      });
-    }
-  };
-
-  const handleUploadImage = () => {
-    if (selectedFile) {
-      uploadImage.mutate(selectedFile, {
-        onSuccess: (data) => {
-          setUploadedIconUrl(data.url);
-          setValue("icon", data.url);
+          setValue("iconUrl", data.url);
         },
       });
     }
@@ -80,10 +62,8 @@ export function CreateBrandForm({ id, brand }) {
 
     const brandData = {
       name: data.name,
-      icon: uploadedIconUrl,
+      iconUrl: uploadedIconUrl,
     };
-
-    console.log(brandData);
 
     if (id) {
       updateBrand.mutate({ id, data: brandData });
@@ -117,7 +97,7 @@ export function CreateBrandForm({ id, brand }) {
               {/* Hidden file input */}
               <Input
                 ref={fileInputRef}
-                id="icon"
+                id="iconUrl"
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
@@ -140,26 +120,7 @@ export function CreateBrandForm({ id, brand }) {
                     />
                     {/* Camera icon overlay */}
                     <div className="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
+                      <Camera />
                     </div>
                   </>
                 ) : (
