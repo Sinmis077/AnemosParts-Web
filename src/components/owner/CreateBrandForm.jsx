@@ -41,8 +41,6 @@ export function CreateBrandForm({ id, brand }) {
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
-
       // Auto-upload immediately
       uploadImage.mutate(file, {
         onSuccess: (data) => {

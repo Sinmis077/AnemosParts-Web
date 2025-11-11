@@ -1,6 +1,6 @@
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useLocation, useSearchParams, useNavigate, Link } from "react-router-dom";
 import { CircleUserRound, ShoppingCart } from "lucide-react";
 
 const navigationItems = [
@@ -18,6 +18,8 @@ export function NavBar() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
+
+  const location = useLocation();
 
   const iconSize = 30;
   const iconColor = "#303030";
@@ -40,7 +42,7 @@ export function NavBar() {
     if (search) {
       navigate(`/catalog?search=${encodeURIComponent(search)}`);
     } else {
-      navigate();
+      navigate(location.pathname);
     }
   }
 
@@ -88,7 +90,7 @@ export function NavBar() {
       <div className="bg-gray-500 h-0.5 opacity-20 w-full"></div>
       <div className="flex p-1 w-8/12 mx-auto text-gray-700">
         {navigationItems.map((item) => (
-          <Link to={item.to} style={{ fontSize: 15 }} className="px-5">
+          <Link key={item.title} to={item.to} style={{ fontSize: 15 }} className="px-5">
             {item.title}
           </Link>
         ))}

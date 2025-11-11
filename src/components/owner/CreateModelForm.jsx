@@ -39,7 +39,6 @@ export function CreateModelForm({ id, model }) {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
 
     if (id) {
       updateModel.mutate(id, data);

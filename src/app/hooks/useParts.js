@@ -14,7 +14,7 @@ export const useParts = () => {
     })
 
     return {
-        catalog: data,
+        catalog: data ? data.parts : [],
         isLoading,
         error
     }    

@@ -33,7 +33,6 @@ export const useCreateBrand = () => {
             toast.success('Brand added successfully!')
         },
         onError: (error) => {
-            console.log(error)
             toast.error(`Failed to make brand \n\r${error.message}`)
         }
     })
