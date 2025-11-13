@@ -1,11 +1,11 @@
 import { ArrowUpDown, SquarePen, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export const brandTableSchema = () => [
+export const brandTableSchema = ({onEdit, onDelete}) => [
     {
-        accessorKey: "iconUrl",
+        accessorKey: "Icon",
         header: "Icon",
-        cell: ({ row }) => <img className="h-10 max-w-3xs" src={row.getValue("iconUrl")} alt="Brand icon" />,
+        cell: ({ row }) => <img className="h-10 max-w-3xs" src={row.original.iconUrl} alt="Brand icon" />,
     },
     {
         accessorKey: "name",
@@ -22,29 +22,29 @@ export const brandTableSchema = () => [
         },
         cell: ({ row }) => <p className="font-medium text-start ps-3">{row.getValue("name")}</p>,
     },
-    // {
-    //     accessorKey: "actions",
-    //     header: "Actions",
-    //     cell: ({ row }) => (
-    //         <div className="flex gap-1">
-    //             <Button
-    //                 variant="ghost"
-    //                 className="h-8 w-8 p-0 hover:text-blue-700"
-    //                 onClick={() => onEdit(row.original)}
-    //             >
-    //                 <SquarePen className="h-4 w-4" />
-    //                 <span className="sr-only">Edit</span>
-    //             </Button>
-    //             <Button
-    //                 variant="ghost"
-    //                 className="h-8 w-8 p-0 hover:text-red-600"
-    //                 onClick={() => onDelete(row.original)}
-    //             >
-    //                 <Trash2 className="h-4 w-4" />
-    //                 <span className="sr-only">Delete</span>
-    //             </Button>
-    //         </div>
-    //     ),
-    // },
+    {
+        accessorKey: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+            <div className="flex gap-1">
+                <Button
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700"
+                    onClick={() => onEdit(row.original)}
+                >
+                    <SquarePen className="h-4 w-4" />
+                    <span className="sr-only">Edit</span>
+                </Button>
+                <Button
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                    onClick={() => onDelete(row.original.id)}
+                >
+                    <Trash2 className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
+                </Button>
+            </div>
+        ),
+    },
 
 ]

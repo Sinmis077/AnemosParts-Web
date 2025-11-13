@@ -42,7 +42,8 @@ export const useUpdateBrand = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id, brand) => {
+        mutationFn: async ({id, brand}) => {
+            console.log(brand)
             const response = await brandService.update(id, brand)
             return response.data
         },

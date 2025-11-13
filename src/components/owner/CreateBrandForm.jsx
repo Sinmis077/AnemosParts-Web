@@ -17,13 +17,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import { Camera } from "lucide-react";
 
-export function CreateBrandForm({ id, brand }) {
+export function CreateBrandForm({ brandId, brand, onClose }) {
   const createBrand = useCreateBrand();
   const updateBrand = useUpdateBrand();
   const uploadImage = useUploadImage();
 
-  const [imagePreview, setImagePreview] = useState(brand?.icon ?? null);
-  const [uploadedIconUrl, setUploadedIconUrl] = useState(brand?.icon ?? null);
+  const [imagePreview, setImagePreview] = useState(brand?.iconUrl ?? null);
+  const [uploadedIconUrl, setUploadedIconUrl] = useState(brand?.iconUrl ?? null);
   const fileInputRef = useRef(null);
 
   const {
@@ -35,6 +35,7 @@ export function CreateBrandForm({ id, brand }) {
     resolver: zodResolver(brandSchema),
     defaultValues: {
       name: brand?.name ?? "",
+      iconUrl: brand?.iconUrl ?? ""
     },
   });
 
@@ -63,10 +64,14 @@ export function CreateBrandForm({ id, brand }) {
       iconUrl: uploadedIconUrl,
     };
 
-    if (id) {
-      updateBrand.mutate({ id, data: brandData });
+    if (brandId) {
+      updateBrand.mutate({id: brandId, brand: brandData});
     } else {
       createBrand.mutate(brandData);
+    }
+
+    if(onClose) {
+      onClose()
     }
   };
 
@@ -145,7 +150,8 @@ export function CreateBrandForm({ id, brand }) {
           <Button
             type="submit"
             disabled={isSubmitting || !uploadedIconUrl}
-            className="px-4 py-2 hover:pointer disabled:opacity-50"
+
+            className="px-4 py-2 disabled:opacity-50"
           >
             {isSubmitting ? "Saving..." : "Save Brand"}
           </Button>
