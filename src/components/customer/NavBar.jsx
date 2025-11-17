@@ -53,7 +53,7 @@ export function NavBar() {
           <Link to="/catalog">
             <img
               height={iconSize}
-              src="src\assets\AnemosParts_Logo.svg"
+              src={"AnemosParts_Logo.svg"}
               alt="Anemos Racing Parts logo"
             />
           </Link>
