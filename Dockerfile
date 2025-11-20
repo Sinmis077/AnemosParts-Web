@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-COPY .prod.env .env
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 FROM node:25.2.0-alpine 
