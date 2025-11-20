@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: truenas
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
