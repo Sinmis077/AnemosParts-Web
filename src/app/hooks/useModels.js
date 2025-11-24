@@ -42,7 +42,7 @@ export const useUpdateModel = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id, model) => {
+        mutationFn: async ({id, model}) => {
             const response = await modelService.update(id, model)
             return response.data
         },

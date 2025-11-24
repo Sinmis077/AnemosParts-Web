@@ -2,8 +2,8 @@ import { useBrands, useDeleteBrand } from "@/app/hooks/useBrands";
 import { brandTableSchema } from "@/app/tables/brandTableSchema";
 import { DataTable } from "@/components/DataTable";
 import { DeleteModal } from "@/components/DeleteModal";
-import { EditBrandModal } from "@/components/EditBrandModal";
-import { CreateBrandForm } from "@/components/owner/CreateBrandForm";
+import { EditModal } from "@/components/EditModal";
+import { BrandForm } from "@/components/owner/BrandForm";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 
@@ -69,7 +69,7 @@ export function BrandsListPage() {
       />
 
       <DeleteModal modalOpen={isDeleteModalOpen} onClose={closeDeleteModal} onConfirm={confirmDeleteBrand} objectId={selectedBrandId} />
-      <EditBrandModal modalOpen={isEditModalOpen} onClose={closeEditModal} Form={<CreateBrandForm brandId={selectedBrand.id} brand={selectedBrand} onClose={closeEditModal} />} />
+      <EditModal modalOpen={isEditModalOpen} onClose={closeEditModal} Form={<BrandForm brandId={selectedBrand.id} brand={selectedBrand} onClose={closeEditModal} />} />
     </main>
   );
 }

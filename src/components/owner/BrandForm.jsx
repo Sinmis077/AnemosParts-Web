@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import { Camera } from "lucide-react";
 
-export function CreateBrandForm({ brandId, brand, onClose }) {
+export function BrandForm({ brandId, brand, onClose }) {
   const createBrand = useCreateBrand();
   const updateBrand = useUpdateBrand();
   const uploadImage = useUploadImage();
@@ -65,12 +65,12 @@ export function CreateBrandForm({ brandId, brand, onClose }) {
     };
 
     if (brandId) {
-      updateBrand.mutate({id: brandId, brand: brandData});
+      updateBrand.mutate({ id: brandId, brand: brandData });
     } else {
       createBrand.mutate(brandData);
     }
 
-    if(onClose) {
+    if (onClose) {
       onClose()
     }
   };
@@ -78,7 +78,11 @@ export function CreateBrandForm({ brandId, brand, onClose }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <FieldSet>
-        <FieldLegend>Brand form</FieldLegend>
+        <FieldLegend>
+          {
+            brand == null ? "Add new brand" : "Edit brand"
+          }
+        </FieldLegend>
         <FieldGroup>
           {/* Name Field */}
           <Field>
@@ -140,8 +144,8 @@ export function CreateBrandForm({ brandId, brand, onClose }) {
                 {uploadImage.isPending
                   ? "Uploading..."
                   : uploadedIconUrl
-                  ? "✓ Icon uploaded successfully"
-                  : "Upload a brand icon (PNG, JPG, SVG, etc.)"}
+                    ? "✓ Icon uploaded successfully"
+                    : "Upload a brand icon (PNG, JPG, SVG, etc.)"}
               </FieldDescription>
             </div>
           </Field>

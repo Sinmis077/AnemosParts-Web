@@ -20,6 +20,24 @@ export const useParts = () => {
     }    
 }
 
+export const useFullParts = () => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['fullParts'],
+        queryFn: async() => {
+            const response = await partService.findAllFull()
+            return response.data;
+        },
+        staleTime: 5 * 60 * 1000,
+        refetchInterval: 10 * 60 * 1000
+    })
+
+    return {
+        catalog: data ? data.parts : [],
+        isLoading,
+        error
+    }    
+}
+
 export const useCreatePart = () => {
     const queryClient = useQueryClient();
 
@@ -29,7 +47,7 @@ export const useCreatePart = () => {
             return response.data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['parts'] })
+            queryClient.invalidateQueries({ queryKey: ['parts', 'fullParts'] })
             toast.success('Part added successfully!')
         },
         onError: (error) => {
@@ -42,7 +60,7 @@ export const useUpdatePart = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id, part) => {
+        mutationFn: async ({id, part}) => {
             const response = await partService.update(id, part)
             return response.data
         },

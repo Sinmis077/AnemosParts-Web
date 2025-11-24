@@ -16,3 +16,19 @@ export const useUploadImage = () => {
         }
     })
 }
+
+export const useUploadImages = () => {
+    return useMutation({
+        mutationFn: async (images) => {
+            const response = await imageService.uploadMultiple(images)
+            return response.data
+        },
+        onSuccess: (data) => {
+            const count = data?.imageUrls?.length || 0;
+            toast.success(`${count} image${count !== 1 ? 's' : ''} uploaded successfully!`)
+        },
+        onError: (error) => {
+            toast.error(`Failed to upload images \n\r${error.message}`)
+        }
+    })
+}

@@ -15,7 +15,7 @@ import { modelSchema } from "@/app/entities/model";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useBrands } from "@/app/hooks/useBrands";
 
-export function CreateModelForm({ id, model }) {
+export function ModelForm({ modelId, model, onClose }) {
   const createModel = useCreateModel();
   const updateModel = useUpdateModel();
 
@@ -34,23 +34,32 @@ export function CreateModelForm({ id, model }) {
     defaultValues: {
       name: model?.name ?? "",
       productionYear: model?.productionYear ?? new Date().getFullYear(),
-      brandId: model?.brandId ?? "",
+      brandId: model?.brand.id ?? "",
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (modelData) => {
 
-    if (id) {
-      updateModel.mutate(id, data);
+    if (modelId) {
+      updateModel.mutate({ id: modelId, model: modelData });
     } else {
-      createModel.mutate(data);
+      createModel.mutate(modelData);
+    }
+
+    if (onClose) {
+      onClose()
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <FieldSet>
-        <FieldLegend>Model form</FieldLegend>
+        <FieldLegend>
+          {
+            model == null ? "Add new model" : "Edit model"
+          }
+        </FieldLegend>
+
         <FieldGroup>
           {/* Name Field */}
           <Field>
