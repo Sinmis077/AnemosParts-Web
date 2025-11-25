@@ -1,7 +1,5 @@
 FROM node:25.2.0-alpine AS build
 WORKDIR /app
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
 COPY package*.json ./
 RUN npm ci
 COPY . .
@@ -11,5 +9,8 @@ FROM node:25.2.0-alpine
 RUN npm install -g serve
 WORKDIR /app
 COPY --from=build /app/dist ./dist
+COPY public/config.template.js ./dist/config.template.js
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:3000"]
+ENTRYPOINT [ "/entrypoint.sh" ]
