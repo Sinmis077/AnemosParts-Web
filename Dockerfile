@@ -7,6 +7,7 @@ RUN npm run build
 
 FROM node:25.2.0-alpine 
 RUN npm install -g serve
+RUN apk add --no-cache gettext
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY /public/config.template.js ./dist/config.template.js
