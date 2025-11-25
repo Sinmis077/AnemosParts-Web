@@ -9,7 +9,7 @@ FROM node:25.2.0-alpine
 RUN npm install -g serve
 WORKDIR /app
 COPY --from=build /app/dist ./dist
-COPY public/config.template.js ./dist/config.template.js
+COPY /public/config.template.js ./dist/config.template.js
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 EXPOSE 3000

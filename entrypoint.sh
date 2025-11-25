@@ -2,7 +2,6 @@ set -e
 
 envsubst < /app/dist/config.template.js > /dist/config.js
 
-
 echo "Generated config.js:"
 cat /dist/config.js
 
