@@ -1,7 +1,8 @@
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams, useNavigate, Link } from "react-router-dom";
-import { CircleUserRound, ShoppingCart } from "lucide-react";
+import { Circle, CircleAlert, CircleEllipsis, CircleUserRound, ShoppingCart } from "lucide-react";
+import { useCart } from "@/app/contexts/CartContext";
 
 const navigationItems = [
   {
@@ -20,6 +21,8 @@ export function NavBar() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
 
   const location = useLocation();
+
+  const cart = useCart();
 
   const iconSize = 30;
   const iconColor = "#303030";
@@ -68,7 +71,7 @@ export function NavBar() {
             placeholder="Type to search..."
           />
         </InputGroup>
-        <div className="w-1/12 grid grid-cols-1 md:grid-cols-2 gap-12 p-2">
+        <div className="w-auto flex gap-4 p-2">
           <button className="min-w-min min-h-min p-0.5 hidden md:block">
             <CircleUserRound
               strokeWidth={1.3}
@@ -77,13 +80,18 @@ export function NavBar() {
               color={iconColor}
             />
           </button>
-          <button className="min-w-min min-h-min p-0.5">
+          <button className="min-w-min min-h-min p-0.5 relative">
             <ShoppingCart
               strokeWidth={1.3}
               width={iconSize}
               height={iconSize}
               color={iconColor}
             />
+            {cart.length > 0 && (
+              <p className="absolute -top-1 -right-1.5 rounded-full w-5.5 h-5.5 flex items-center justify-center bg-sky-500 text-xs text-white border-2 border-white">
+                {cart.length}
+              </p>
+            )}
           </button>
         </div>
       </div>

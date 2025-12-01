@@ -16,7 +16,7 @@ export const useModels = () => {
     return {
         models: data ? data.models : [],
         isLoading,
-        error
+        error: error?.response.data
     }    
 }
 

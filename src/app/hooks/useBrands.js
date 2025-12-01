@@ -16,7 +16,7 @@ export const useBrands = () => {
     return {
         brands: data ? data.brands : [],
         isLoading,
-        error
+        error: error?.response.data
     }    
 }
 

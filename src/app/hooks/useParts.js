@@ -16,7 +16,7 @@ export const useParts = () => {
     return {
         catalog: data ? data.parts : [],
         isLoading,
-        error
+        error: error?.response.data
     }    
 }
 
