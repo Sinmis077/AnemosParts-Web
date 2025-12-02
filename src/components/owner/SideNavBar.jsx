@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Bike,
   Building,
@@ -5,7 +6,6 @@ import {
   ClipboardList,
   Cog,
   LayoutDashboard,
-  List,
   Plus,
 } from "lucide-react";
 import { useState } from "react";
@@ -13,7 +13,6 @@ import {
   Sidebar,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,

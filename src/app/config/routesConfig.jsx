@@ -1,5 +1,7 @@
+import React from "react";
 import { CustomerLayout } from "@/layouts/CustomerLayout";
 import { OwnerLayout } from "@/layouts/OwnerLayout";
+import { PartDetailsPage } from "@/pages/customer/PartDetailsPage";
 import { PartsCatalogPage } from "@/pages/customer/PartsCatalogPage";
 import { HomePage } from "@/pages/HomePage";
 import { BrandsListPage } from "@/pages/owner/BrandsListPage";
@@ -21,6 +23,10 @@ export const routesConfig = [
       {
         path: "/catalog",
         element: <PartsCatalogPage />,
+      },
+      {
+        path: '/catalog/item/:id',
+        element: <PartDetailsPage />,
       },
     ],
   },

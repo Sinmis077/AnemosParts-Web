@@ -1,3 +1,4 @@
+import React from "react";
 import { BrandForm } from "@/components/owner/BrandForm";
 
 export function CreateBrandPage() {

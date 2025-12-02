@@ -10,6 +10,7 @@ import {
 import { CardSimIcon, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export function PartCard({ part }) {
     const dispatch = useCartDispatch();
@@ -18,20 +19,24 @@ export function PartCard({ part }) {
         toast.success("Added an item to your cart!")
         dispatch({
             type: 'add',
-            item: {id}
+            item: { id }
         });
     }
 
     return (
-        <Card className="h-min">
-            <CardHeader>
-                <CardSimIcon></CardSimIcon>
-                <CardTitle>{part.name}</CardTitle>
-                <CardDescription>{part.description}</CardDescription>
-            </CardHeader>
-            <CardFooter>
-                <Button onClick={() => {onAdd(part.id)}} size="sm"><Plus /></Button>
-            </CardFooter>
-        </Card>
+        <Link to={`item/${part.id}`}>
+            <Card className="cursor-pointer">
+                <CardHeader>
+                    <img className="w-full" src={part.thumbnailSrc} alt="Part thumbnail" />
+                    <CardTitle className="text-start">{part.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <CardDescription className="text-balance text-start">{part.description}</CardDescription>
+                </CardContent>
+                <CardFooter className="flex items-end justify-end">
+                    <img className="w-1/2" src={part.brandIconSrc} alt="Brand icon" />
+                </CardFooter>
+            </Card>
+        </Link>
     )
 }

@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useCreateBrand, useUpdateBrand } from "@/app/hooks/useBrands";
 import { useUploadImage } from "@/app/hooks/useUploadImage";
@@ -16,6 +17,7 @@ import { brandSchema } from "@/app/entities/brand";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import { Camera } from "lucide-react";
+import toast from "react-hot-toast";
 
 export function BrandForm({ brandId, brand, onClose }) {
   const createBrand = useCreateBrand();
