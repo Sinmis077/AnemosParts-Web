@@ -1,3 +1,4 @@
+import React from "react";
 import { useDeletePart, useFullParts } from "@/app/hooks/useParts";
 import { partTableSchema } from "@/app/tables/partTableSchema";
 import { DataTable } from "@/components/DataTable";

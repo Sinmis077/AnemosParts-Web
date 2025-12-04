@@ -1,7 +1,8 @@
+import React from "react";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams, useNavigate, Link } from "react-router-dom";
-import { Circle, CircleAlert, CircleEllipsis, CircleUserRound, ShoppingCart } from "lucide-react";
+import { CircleUserRound, ShoppingCart } from "lucide-react";
 import { useCart } from "@/app/contexts/CartContext";
 
 const navigationItems = [

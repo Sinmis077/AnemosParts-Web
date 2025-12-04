@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 export function PartDetailsPage() {
     const { id } = useParams();
@@ -19,6 +20,8 @@ export function PartDetailsPage() {
             {part.description}<br />
             {part.price}<br />
             {part.quantity}<br />
+
+            <Button>Add to cart</Button>
         </main>
     );
 }

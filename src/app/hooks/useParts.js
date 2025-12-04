@@ -65,7 +65,7 @@ export const useUpdatePart = () => {
             return response.data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['parts'] })
+            queryClient.invalidateQueries({ queryKey: ['parts', 'fullParts'] })
             toast.success("Part updated successfully!")
         },
         onError: (error) => {
@@ -83,7 +83,7 @@ export const useDeletePart = () => {
             return response.data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['parts'] })
+            queryClient.invalidateQueries({ queryKey: ['parts', 'fullParts'] })
             toast.success("Part deleted successfully!")
         },
         onError: (error) => {

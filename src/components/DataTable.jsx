@@ -1,3 +1,4 @@
+import React from "react"
 import { useState } from "react"
 import {
     flexRender,
@@ -7,7 +8,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, FilePlus, Search } from "lucide-react"
+import { ChevronDown, FilePlus, Search } from "lucide-react"
 
 import {
     Table,
