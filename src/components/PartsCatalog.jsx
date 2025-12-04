@@ -1,5 +1,5 @@
-import { useParts, useCreatePart } from "@/app/hooks/useParts";
-import { Spinner } from "../ui/spinner";
+import { useParts } from "@/app/hooks/useParts";
+import { Spinner } from "./ui/spinner";
 import { PartCard } from "./PartCard";
 import { useSearchParams } from "react-router-dom";
 
