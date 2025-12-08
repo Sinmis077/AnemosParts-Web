@@ -1,9 +1,8 @@
-import React from "react";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import { useEffect, useState } from "react";
-import { useLocation, useSearchParams, useNavigate, Link } from "react-router-dom";
-import { CircleUserRound, ShoppingCart } from "lucide-react";
-import { useCart } from "@/app/contexts/CartContext";
+import React, { useEffect, useState } from 'react';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { CircleUserRound, ShoppingCart } from 'lucide-react';
+import useCart from '@/app/contexts/CartContext';
 
 const navigationItems = [
   {
@@ -81,7 +80,7 @@ export function NavBar() {
               color={iconColor}
             />
           </button>
-          <button className="min-w-min min-h-min p-0.5 relative">
+          <Link to="/cart" className="min-w-min min-h-min p-0.5 relative">
             <ShoppingCart
               strokeWidth={1.3}
               width={iconSize}
@@ -93,7 +92,7 @@ export function NavBar() {
                 {cart.length}
               </p>
             )}
-          </button>
+          </Link>
         </div>
       </div>
       <div className="bg-gray-500 h-0.5 opacity-20 w-full"></div>

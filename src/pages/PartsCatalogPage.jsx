@@ -1,5 +1,5 @@
-import { CatalogSideMenu } from "@/components/CatalogSideMenu";
-import { PartsCatalog } from "@/components/PartsCatalog";
+import { CatalogSideMenu } from '@/components/CatalogSideMenu';
+import { PartsCatalog } from '@/components/PartsCatalog';
 
 export function PartsCatalogPage() {
   return (

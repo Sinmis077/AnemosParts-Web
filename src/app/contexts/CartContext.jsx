@@ -1,66 +1,71 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from 'react';
 
-const CartContext = createContext({})
+const CartContext = createContext({});
 
-const CartDispatchContext = createContext({})
+const CartDispatchContext = createContext({});
 
 export function CartProvider({ children }) {
-    const [items, dispatch] = useReducer(
-        itemsReducer,
-        initialCart
-    );
+	const [items, dispatch] = useReducer(itemsReducer, initialCart);
 
-    return (
-        <CartContext value={items}>
-            <CartDispatchContext value={dispatch}>
-                {children}
-            </CartDispatchContext>
-        </CartContext>
-    );
+	return (
+		<CartContext value={items}>
+			<CartDispatchContext value={dispatch}>
+				{children}
+			</CartDispatchContext>
+		</CartContext>);
 }
 
-export function useCart() {
-    return useContext(CartContext);
+export default function useCart() {
+	return useContext(CartContext);
+}
+
+export function useCartItemIds() {
+	let ids = [];
+
+	useCart().forEach(item => {
+		ids.push(item.id);
+	});
+
+	return ids;
 }
 
 export function useCartDispatch() {
-    return useContext(CartDispatchContext);
+	return useContext(CartDispatchContext);
 }
 
 function itemsReducer(items, action) {
-    let item = action.item;
+	let item = action.item;
 
-    let cart = [...items];
+	let cart = [...items];
 
-    switch (action.type) {
-        case 'add':
-            if(cart.filter(i => i?.id === item.id).length > 0) {
-                return cart;
-            }
-            cart.push({id: item.id});
+	switch (action.type) {
+		case 'add':
+			if (cart.filter(i => i?.id === item.id).length > 0) {
+				return cart;
+			}
+			cart.push({ id: item.id });
 
-            break;
-        case 'update':
-            cart = cart.map(i => {
-                if(i.id === item.id) {
-                    return {id: item.id};
-                }
-                else {
-                    return i;
-                }
-            })
-            break;
-        case 'remove':
-            cart = cart.filter(i => i.id !== item.id);
-            break;
+			break;
+		case 'update':
+			cart = cart.map(i => {
+				if (i.id === item.id) {
+					return { id: item.id };
+				} else {
+					return i;
+				}
+			});
+			break;
+		case 'remove':
+			cart = cart.filter(i => i.id !== item.id);
+			break;
 
-        default:
-            throw new Error("Unknown action: " + action.type);
-    }
+		default:
+			throw new Error('Unknown action: ' + action.type);
+	}
 
-    localStorage.setItem('cart', JSON.stringify(cart));    
+	localStorage.setItem('cart', JSON.stringify(cart));
 
-    return cart;
+	return cart;
 }
 
-const initialCart = JSON.parse(localStorage.getItem("cart")) ?? [];
+const initialCart = JSON.parse(localStorage.getItem('cart')) ?? [];

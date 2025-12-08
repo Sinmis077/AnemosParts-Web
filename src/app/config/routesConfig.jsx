@@ -1,8 +1,9 @@
-import React from "react";
-import { Layout } from "@/layouts/Layout";
-import { PartDetailsPage } from "@/pages/PartDetailsPage";
-import { PartsCatalogPage } from "@/pages/PartsCatalogPage";
-import { HomePage } from "@/pages/HomePage";
+import React from 'react';
+import { Layout } from '@/layouts/Layout';
+import { PartDetailsPage } from '@/pages/PartDetailsPage';
+import { PartsCatalogPage } from '@/pages/PartsCatalogPage';
+import { HomePage } from '@/pages/HomePage';
+import { CartPage } from '@/pages/CartPage.jsx';
 
 export const routesConfig = [
   {
@@ -22,4 +23,8 @@ export const routesConfig = [
       },
     ],
   },
+	{
+		path: "/cart",
+		element: <CartPage />,
+	},
 ];

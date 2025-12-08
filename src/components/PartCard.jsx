@@ -1,42 +1,28 @@
-import { useCartDispatch } from "@/app/contexts/CartContext";
-import {
-    Card,
-    CardHeader,
-    CardFooter,
-    CardTitle,
-    CardDescription,
-    CardContent
-} from "@/components/ui/card"
-import { CardSimIcon, Plus } from "lucide-react";
-import { Button } from "./ui/button";
-import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+
+PartCard.propTypes = {
+	part: Object
+};
 
 export function PartCard({ part }) {
-    const dispatch = useCartDispatch();
-
-    const onAdd = (id) => {
-        toast.success("Added an item to your cart!")
-        dispatch({
-            type: 'add',
-            item: { id }
-        });
-    }
-
-    return (
-        <Link to={`item/${part.id}`}>
-            <Card className="cursor-pointer">
-                <CardHeader>
-                    <img className="w-full" src={part.thumbnailSrc} alt="Part thumbnail" />
-                    <CardTitle className="text-start">{part.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <CardDescription className="text-balance text-start">{part.description}</CardDescription>
-                </CardContent>
-                <CardFooter className="flex items-end justify-end">
-                    <img className="w-1/2" src={part.brandIconSrc} alt="Brand icon" />
-                </CardFooter>
-            </Card>
-        </Link>
-    )
+	return (
+		<Link to={`item/${part.id}`}>
+			<Card className="cursor-pointer gap-3">
+				<CardHeader>
+					<img className="w-full h-[120px] pb-3" src={part.thumbnailSrc} alt="Part thumbnail" />
+					<CardTitle className="text-start">{part.name}</CardTitle>
+				</CardHeader>
+				<CardContent className="pb-3">
+					<CardDescription className="text-start text-pretty text-current">{part.description}</CardDescription>
+					<CardDescription className="text-end">
+						€{part.price} | Quantity: {part.quantity}
+					</CardDescription>
+				</CardContent>
+				<CardFooter className="flex items-end justify-end">
+					<img className="w-1/2" src={part.brandIconSrc} alt="Brand icon" />
+				</CardFooter>
+			</Card>
+		</Link>
+	);
 }

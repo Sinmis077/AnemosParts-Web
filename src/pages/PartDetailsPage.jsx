@@ -1,27 +1,32 @@
-import { useParams } from "react-router-dom";
-import React from "react";
-import { Button } from "@/components/ui/button";
+import { useParams } from 'react-router-dom';
+import React from 'react';
+import { MainDetailsPart } from '@/components/MainDetailsPart.jsx';
+import { usePart } from '@/app/hooks/useParts.js';
+import { Spinner } from '@/components/ui/spinner.jsx';
+import { Divider } from '@/components/ui/divider.jsx';
 
 export function PartDetailsPage() {
-    const { id } = useParams();
+	const { id } = useParams();
 
-    let part = {
-        id: id,
-        name: "Test part",
-        description: "This is an example part and is hard coded",
-        price: 20,
-        quantity: 7,
-    };
-  
-    return (
-        <main>
-            {part.id}<br />
-            {part.name}<br />
-            {part.description}<br />
-            {part.price}<br />
-            {part.quantity}<br />
+	const {
+		part,
+		isLoading,
+		error
+	} = usePart(id);
 
-            <Button>Add to cart</Button>
-        </main>
-    );
+	if(isLoading) {
+		return <Spinner />;
+	}
+
+	return (
+		<div className="container mx-auto mt-7">
+			<MainDetailsPart part={part} />
+
+			<Divider className="mt-12" />
+
+			<p className="text-2xl mt-12">
+				{part.description}
+			</p>
+		</div>
+	);
 }

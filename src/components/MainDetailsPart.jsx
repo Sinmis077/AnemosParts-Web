@@ -1,0 +1,121 @@
+import { useCartDispatch } from '@/app/contexts/CartContext.jsx';
+import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button.jsx';
+import React, { useEffect, useState } from 'react';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel.jsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Divider } from '@/components/ui/divider.jsx';
+
+MainDetailsPart.propTypes = {
+	part: Object
+};
+
+export function MainDetailsPart({ part }) {
+	const [selectedImage, setSelectedImage] = useState({source: "/fallback.jpg"});
+	const [hoveredImage, setHoveredImage] = useState({});
+
+	const dispatch = useCartDispatch();
+
+	if (!part.id) return <p className="text-red-600">ERROR</p>;
+
+	function onAdd(id) {
+		if (!id) return null;
+
+		dispatch({
+			type: 'add',
+			item: { id, quantity: 1 }
+		});
+
+		toast.success('Added an item to your cart!');
+	}
+
+	function findNextImage() {
+		const currentIndex = part.images.findIndex(image => image.id === selectedImage.id);
+
+		if (currentIndex === -1 || currentIndex + 1 === part.images.length) {
+			return part.images[0];
+		}
+
+		return part.images[currentIndex + 1];
+	}
+
+	function findPreviousImage() {
+		const currentIndex = part.images.findIndex(image => image.id === selectedImage.id);
+
+		if (currentIndex === -1 || currentIndex - 1 < 0) {
+			return part.images[part.images.length - 1];
+		}
+
+		return part.images[currentIndex - 1];
+	}
+
+	useEffect(() => {
+		if (part.images?.length > 0) {
+			let thumbnail = part.images.find(image => image.isThumbnail) ?? part.images[0];
+
+			if(thumbnail) setSelectedImage(thumbnail);
+
+			// Shift thumbnail to the front of the images even if in data form it's not
+			if (part.images.find(image => image.id === thumbnail.id)) {
+				let index = part.images.findIndex(image => image.id === thumbnail.id);
+				part.images.splice(index, 1);
+			}
+
+			part.images.unshift(thumbnail);
+		}
+
+	}, []);
+
+	return (
+		<div className="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 grid-rows-2 md:grid-rows-1 gap-3">
+			<div className="lg:col-span-3 lg:h-[72vh] h-[50vh] col-span-2 relative">
+				<div className="h-9/12 p-4 min-w-full flex items-center">
+					<ChevronLeft size={42}
+											 className="cursor-pointer ms-auto absolute lg:left-12 left-7 rounded-full hover:bg-gray-200 transition-colors duration-200"
+											 onClick={() => {
+												 if(part.images.length > 0)
+													 setSelectedImage(findPreviousImage());
+											 }}
+					/>
+					<img className="h-full mx-auto" src={hoveredImage?.source ?? selectedImage.source}
+							 alt="Selected part image" />
+					<ChevronRight size={42}
+												className="cursor-pointer me-auto absolute lg:right-12 right-7 rounded-full hover:bg-gray-200  transition-colors duration-200"
+												onClick={() => {
+													if(part.images.length > 0)
+														setSelectedImage(findNextImage());
+												}}
+					/>
+				</div>
+				<Carousel className="absolute bottom-0 mt-5 px-4">
+					<CarouselContent className="flex flex-row row-span-1">
+						{part.images.map(image => (
+							<CarouselItem
+								key={image.id}
+								className={`flex-1 min-w-1/5 max-w-1/5 p-0 m-0.5 cursor-pointer rounded border-gray-700 ${selectedImage.id === image.id ? 'border-2' : `${hoveredImage?.id === image.id ? 'border-1' : ''}`}`}
+								onMouseEnter={() => setHoveredImage(image)}
+								onMouseLeave={() => setHoveredImage(null)}
+								onClick={() => setSelectedImage(image)}
+							>
+								<img className="mx-auto lg:h-30 md:h-17 h-10" src={image.source} alt="Part images" />
+							</CarouselItem>
+						))}
+					</CarouselContent>
+				</Carousel>
+			</div>
+
+			<div className="lg:col-span-1 lg:h-[72vh] h-[50vh] col-span-2 p-8 box-border border-[0.5px] rounded bg-gray-100 shadow-lg">
+				<h1 className="font-bold text-4xl text-start">{part.name}</h1>
+				<Divider />
+				<h2 className="text-2xl font-bold text-start">€{part.price}</h2>
+				<p className="text-start mt-2"> Quantity: {part.quantity}</p>
+				<Divider />
+				<div className="flex flex-col items-center mt-10 justify-end gap-3">
+					<Button size="lg" className="bg-sky-500 w-9/12 hover:bg-sky-600 transition-colors" onClick={() => onAdd(part.id)}>Add to cart</Button>
+					<Button size="lg" className="bg-orange-400 hover:bg-orange-500 transition-colors text-black w-9/12"
+									onClick={() => toast.error('Feature is currently not implemented')}>Buy now</Button>
+				</div>
+			</div>
+		</div>
+	);
+}

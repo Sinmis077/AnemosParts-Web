@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from 'react';
 
-import { cn } from "@/app/utils/cn"
+import { cn } from '@/app/utils/cn';
 
 function Textarea({
   className,

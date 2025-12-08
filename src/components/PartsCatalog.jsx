@@ -1,7 +1,7 @@
-import { useParts } from "@/app/hooks/useParts";
-import { Spinner } from "./ui/spinner";
-import { PartCard } from "./PartCard";
-import { useSearchParams } from "react-router-dom";
+import { useParts } from '@/app/hooks/useParts';
+import { Spinner } from './ui/spinner';
+import { PartCard } from './PartCard';
+import { useSearchParams } from 'react-router-dom';
 
 export function PartsCatalog() {
   const Parts = useParts();
