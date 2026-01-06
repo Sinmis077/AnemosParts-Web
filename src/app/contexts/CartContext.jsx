@@ -1,3 +1,4 @@
+import React from 'react';
 import { createContext, useContext, useReducer } from 'react';
 
 const CartContext = createContext({});
@@ -41,15 +42,20 @@ function itemsReducer(items, action) {
 	switch (action.type) {
 		case 'add':
 			if (cart.filter(i => i?.id === item.id).length > 0) {
+				cart = cart.map(i => {
+					if (i.id === item.id) {
+						return { id: item.id, quantity: i.quantity + 1 };
+					}
+				});
 				return cart;
 			}
-			cart.push({ id: item.id });
+			cart.push({ id: item.id, quantity: item.quantity });
 
 			break;
 		case 'update':
 			cart = cart.map(i => {
 				if (i.id === item.id) {
-					return { id: item.id };
+					return { id: item.id, quantity: item.quantity };
 				} else {
 					return i;
 				}

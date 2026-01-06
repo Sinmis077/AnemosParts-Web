@@ -3,11 +3,12 @@ import { partService } from '../services/partService';
 import { formatError } from '@/app/utils/errorformatter.js';
 
 export function useParts(ids) {
+	if(!ids) { ids = [] }
     const { data, isLoading, error } = useQuery({
         queryKey: ['parts', ids],
         queryFn: async() => {
-					if(!ids) {
-						const response = await partService.findAll()
+					if(ids.length === 0) {
+						const response = await partService.findAll(ids)
 						return response.data;
 					}
 					else {

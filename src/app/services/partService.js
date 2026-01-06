@@ -1,9 +1,9 @@
-import { api } from './api';
+import {api} from './api';
 
 export const partService = {
-    findAll: () => api.get('/parts/summaries'),
+    findAll: () => api.get('/parts'),
 
-		findAllByIds: (ids) => api.get('/parts/ids', {params: {ids}}),
+    findAllByIds: (ids) => api.get('/parts/ids', {params: {ids}}),
 
-		find: (id) => api.get(`/parts/${id}`)
+    find: (id) => api.get(`/parts/${id}`)
 }
