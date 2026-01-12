@@ -1,4 +1,4 @@
-import {useCartDispatch} from '@/app/contexts/CartContext.jsx';
+import useCart, {useCartDispatch} from '@/app/contexts/CartContext.jsx';
 import toast from 'react-hot-toast';
 import {Button} from '@/components/ui/button.jsx';
 import {Badge} from '@/components/ui/badge.jsx';
@@ -16,14 +16,24 @@ export function MainDetailsPart({part}) {
     const [hoveredImage, setHoveredImage] = useState(null);
 
     const dispatch = useCartDispatch();
+    const cart = useCart();
 
     if (!part.id) return <p className="text-red-600">ERROR</p>;
 
     const isSoldOut = part.quantity === 0;
     const isLowStock = part.quantity > 0 && part.quantity <= 3;
 
-    function onAdd(id) {
+    function onAdd(part) {
+        const id = part.id;
         if (!id || isSoldOut) return;
+
+        const cartItem = cart.find(item => item.id === id);
+
+
+        if (cartItem?.quantity + 1 > part.quantity) {
+            toast.error('Not enough in stock to add to your cart');
+            return;
+        }
 
         dispatch({
             type: 'add', item: {id, quantity: 1}
@@ -124,7 +134,7 @@ export function MainDetailsPart({part}) {
                     <Button
                         size="lg"
                         className="bg-sky-500 w-9/12 hover:bg-sky-600 transition-colors"
-                        onClick={() => onAdd(part.id)}
+                        onClick={() => onAdd(part)}
                         disabled={isSoldOut}
                     >
                         <ShoppingCart className="mr-2 h-5 w-5"/>

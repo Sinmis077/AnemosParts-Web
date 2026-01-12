@@ -1,4 +1,3 @@
-// PartDetailsPage.jsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { MainDetailsPart } from '@/components/MainDetailsPart.jsx';
