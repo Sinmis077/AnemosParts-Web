@@ -4,6 +4,10 @@ import { PartDetailsPage } from '@/pages/PartDetailsPage';
 import { PartsCatalogPage } from '@/pages/PartsCatalogPage';
 import { HomePage } from '@/pages/HomePage';
 import { CartPage } from '@/pages/CartPage.jsx';
+import { SuccessPage } from '@/pages/SuccessPage.jsx';
+import { CancelPage } from '@/pages/CancelPage.jsx';
+import { AccountPage } from '@/pages/AccountPage.jsx';
+import { RegisterPage } from '@/pages/RegisterPage.jsx';
 
 export const routesConfig = [
   {
@@ -21,6 +25,22 @@ export const routesConfig = [
         path: '/catalog/item/:id',
         element: <PartDetailsPage />,
       },
+      {
+        path: '/payment/success',
+        element: <SuccessPage />,
+      },
+      {
+        path: '/payment/cancel',
+        element: <CancelPage />,
+      },
+      {
+        path: '/account',
+        element: <AccountPage />,
+      },
+      {
+        path: '/register',
+        element: <RegisterPage />,
+      }
     ],
   },
 	{

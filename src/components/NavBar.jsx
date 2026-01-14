@@ -3,6 +3,7 @@ import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { CircleUserRound, ShoppingCart } from 'lucide-react';
 import useCart from '@/app/contexts/CartContext';
+import { LoginPopover } from '@/components/LoginPopover.jsx';
 
 const navigationItems = [
   {
@@ -72,14 +73,9 @@ export function NavBar() {
           />
         </InputGroup>
         <div className="w-auto flex gap-4 p-2">
-          <button className="min-w-min min-h-min p-0.5 hidden md:block">
-            <CircleUserRound
-              strokeWidth={1.3}
-              width={iconSize}
-              height={iconSize}
-              color={iconColor}
-            />
-          </button>
+          <div className="hidden md:block">
+            <LoginPopover iconSize={iconSize} iconColor={iconColor} />
+          </div>
           <Link to="/cart" className="min-w-min min-h-min p-0.5 relative">
             <ShoppingCart
               strokeWidth={1.3}

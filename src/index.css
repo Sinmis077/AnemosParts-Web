@@ -125,3 +125,9 @@ a:hover {
     color: var(--color-blue-600);
     text-decoration: underline;
 }
+
+a[class*="bg-sky"]:hover,
+a[class*="bg-orange"]:hover {
+    color: white;
+    text-decoration: underline;
+}

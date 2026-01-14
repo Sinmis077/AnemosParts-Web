@@ -64,6 +64,9 @@ function itemsReducer(items, action) {
 		case 'remove':
 			cart = cart.filter(i => i.id !== item.id);
 			break;
+		case 'clear':
+			cart = [];
+			break;
 
 		default:
 			throw new Error('Unknown action: ' + action.type);

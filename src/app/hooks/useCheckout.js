@@ -1,6 +1,6 @@
-import {useMutation} from "@tanstack/react-query";
-import {checkoutService} from "@/app/services/checkoutService.js";
-import toast from "react-hot-toast";
+import { useMutation } from '@tanstack/react-query';
+import { checkoutService } from '@/app/services/checkoutService.js';
+import toast from 'react-hot-toast';
 
 export function useCheckout() {
     return useMutation({
