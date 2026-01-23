@@ -1,9 +1,7 @@
 import * as z from "zod";
 
 export const checkoutAccountSchema = z.object({
-    email: z.string()
-        .min(1, "Email is required")
-        .email("Please enter a valid email"),
+    email: z.email("Please enter a valid email")
 });
 
 export const addressSchema = z.object({

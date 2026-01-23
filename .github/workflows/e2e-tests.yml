@@ -1,0 +1,173 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: webstore_test
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout Frontend
+        uses: actions/checkout@v4
+        with:
+          path: frontend
+
+      - name: Checkout Backend
+        uses: actions/checkout@v4
+        with:
+          repository: Sinmis077/anemosparts-api
+          path: backend
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Stripe CLI
+        run: |
+          curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg
+          echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list
+          sudo apt update
+          sudo apt install stripe
+
+      - name: Make gradlew executable
+        working-directory: backend
+        run: chmod +x gradlew
+
+      - name: Build Backend
+        working-directory: backend
+        run: ./gradlew build -x test
+
+      - name: Start Backend
+        working-directory: backend
+        env:
+          DATASOURCE_JDBC_URL: jdbc:mysql://localhost:3306/webstore_test
+          DATASOURCE_USERNAME: testuser
+          DATASOURCE_PASSWORD: testpass
+          SERVER_PORT: 8080
+          SERVER_ADDRESS: 0.0.0.0
+          DNS_ORIGIN: http://localhost:5173
+          MAX_IMAGE_SIZE: 1048576
+          DEFAULT_UPLOAD_DIR: /tmp/test-uploads/
+          DEFAULT_ACCESS_SRC: http://localhost:8080/resources/images/
+          STRIPE_API_KEY: ${{ secrets.STRIPE_TEST_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          STRIPE_SUCCESS_URL: http://localhost:5173/order/payment/success
+          STRIPE_CANCEL_URL: http://localhost:5173/order/payment/cancel
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          JWT_EXPIRY: 2592000000
+          SHIPPING_RATE: 10
+          SPRING_PROFILES_ACTIVE: test
+        run: |
+          ./gradlew bootRun > backend.log 2>&1 &
+          echo $! > backend.pid
+
+      - name: Wait for Backend
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:8080/actuator/health; do sleep 2; done'
+
+      - name: Start Stripe CLI Listener
+        env:
+          STRIPE_API_KEY: ${{ secrets.STRIPE_TEST_SECRET_KEY }}
+        run: |
+          stripe listen --api-key $STRIPE_API_KEY --forward-to http://localhost:8080/api/webhooks/stripe > stripe-listener.log 2>&1 &
+          echo $! > stripe.pid
+          sleep 5
+          cat stripe-listener.log
+
+      - name: Install Frontend Dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Create cypress.env.json
+        working-directory: frontend
+        run: |
+          cat > cypress.env.json << EOF
+          {
+            "apiUrl": "http://localhost:8080/api",
+            "stripeSecretKey": "${{ secrets.STRIPE_TEST_SECRET_KEY }}",
+            "stripeWebhookSecret": "${{ secrets.STRIPE_WEBHOOK_SECRET }}"
+          }
+          EOF
+
+      - name: Start Frontend
+        working-directory: frontend
+        run: |
+          npm run dev > frontend.log 2>&1 &
+          echo $! > frontend.pid
+
+      - name: Wait for Frontend
+        run: |
+          timeout 30 bash -c 'until curl -f http://localhost:5173; do sleep 2; done'
+
+      - name: Run E2E Tests
+        working-directory: frontend
+        run: npm run test:e2e:headless
+
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: frontend/cypress/screenshots
+          if-no-files-found: ignore
+
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: frontend/cypress/videos
+          if-no-files-found: ignore
+
+      - name: Upload Backend Logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: backend-logs
+          path: backend/backend.log
+          if-no-files-found: ignore
+
+      - name: Upload Stripe Listener Logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: stripe-logs
+          path: stripe-listener.log
+          if-no-files-found: ignore
+
+      - name: Cleanup
+        if: always()
+        run: |
+          if [ -f backend/backend.pid ]; then kill $(cat backend/backend.pid) || true; fi
+          if [ -f frontend/frontend.pid ]; then kill $(cat frontend/frontend.pid) || true; fi
+          if [ -f stripe.pid ]; then kill $(cat stripe.pid) || true; fi

@@ -39,7 +39,7 @@ export function MainDetailsPart({part}) {
             type: 'add', item: {id, quantity: 1}
         });
 
-        toast.success('Added to cart!');
+        toast.success('Added to your cart!');
     }
 
     function findNextImage() {

@@ -1,0 +1,107 @@
+{
+  "testUser": {
+    "email": "test@gmail.com",
+    "password": "Gg#5631h",
+    "forename": "Test",
+    "surname": "User"
+  },
+  "adminUser": {
+    "email": "owner@anemosracingparts.com",
+    "password": "fMg3e#der563",
+    "forename": "Admin",
+    "surname": "Owner"
+  },
+  "newUser": {
+    "forename": "New",
+    "surname": "Customer",
+    "email": "newuser@test.com",
+    "password": "TestPass123!",
+    "confirmPassword": "TestPass123!"
+  },
+  "guestCheckout": {
+    "email": "guest@test.com",
+    "forename": "Guest",
+    "surname": "Buyer",
+    "houseNumber": "456",
+    "street": "Test Avenue",
+    "city": "Limassol",
+    "state": "Limassol",
+    "postalCode": "3040",
+    "country": "Cyprus",
+    "extras": "Apartment 2B"
+  },
+  "shippingAddress": {
+    "forename": "Test",
+    "surname": "User",
+    "houseNumber": "123",
+    "street": "Main Street",
+    "city": "Nicosia",
+    "state": "Nicosia",
+    "postalCode": "1234",
+    "country": "Cyprus",
+    "extras": ""
+  },
+  "testParts": {
+    "brakePads": {
+      "id": 1,
+      "name": "Front Brake Pads",
+      "price": 45.99,
+      "quantity": 5
+    },
+    "oilFilter": {
+      "id": 2,
+      "name": "Engine Oil Filter",
+      "price": 12.50,
+      "quantity": 10
+    },
+    "chainKit": {
+      "id": 3,
+      "name": "Chain and Sprocket Kit",
+      "price": 189.99,
+      "quantity": 3
+    },
+    "airFilter": {
+      "id": 4,
+      "name": "Air Filter",
+      "price": 35.00,
+      "quantity": 8
+    }
+  },
+  "testBrands": [
+    {
+      "id": 1,
+      "name": "Yamaha"
+    },
+    {
+      "id": 2,
+      "name": "Honda"
+    },
+    {
+      "id": 3,
+      "name": "Suzuki"
+    }
+  ],
+  "testModels": [
+    {
+      "id": 1,
+      "name": "YZF-R6",
+      "brand": "Yamaha"
+    },
+    {
+      "id": 2,
+      "name": "MT-07",
+      "brand": "Yamaha"
+    },
+    {
+      "id": 3,
+      "name": "CBR600RR",
+      "brand": "Honda"
+    }
+  ],
+  "stripeTestCard": {
+    "number": "4242424242424242",
+    "expiry": "1228",
+    "cvc": "123",
+    "zip": "12345"
+  }
+}

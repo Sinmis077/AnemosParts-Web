@@ -55,7 +55,7 @@ export function LoginPopover({ iconSize, iconColor }) {
 
 	if (isLoading) {
 		return (
-			<button className="min-w-min min-h-min p-0.5">
+			<button data-testid="login-button" className="min-w-min min-h-min p-0.5">
 				<CircleUserRound
 					strokeWidth={1.3}
 					width={iconSize}
@@ -69,7 +69,7 @@ export function LoginPopover({ iconSize, iconColor }) {
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				<button className="min-w-min min-h-min p-0.5">
+				<button data-testid="login-button" className="min-w-min min-h-min p-0.5">
 					<CircleUserRound
 						strokeWidth={1.3}
 						width={iconSize}
